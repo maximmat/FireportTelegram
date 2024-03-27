@@ -1,0 +1,214 @@
+[
+    {
+        "id": "b445e7a4ef7add75",
+        "type": "ui_switch",
+        "z": "2514ef91f6e9109c",
+        "name": "fireport on/off",
+        "label": "On/Off",
+        "tooltip": "",
+        "group": "adaefe9d5c8576bf",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "fireport_on_off",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "fireport_on_off",
+        "x": 830,
+        "y": 200,
+        "wires": [
+            [
+                "4fd91b23e86a86e8"
+            ]
+        ]
+    },
+    {
+        "id": "2e5be63e7b538da5",
+        "type": "http in",
+        "z": "2514ef91f6e9109c",
+        "name": "Poplach",
+        "url": "/poplach",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 480,
+        "y": 80,
+        "wires": [
+            [
+                "2198d84641279a48",
+                "94d96a8f09caab34"
+            ]
+        ]
+    },
+    {
+        "id": "94d96a8f09caab34",
+        "type": "function",
+        "z": "2514ef91f6e9109c",
+        "name": "Topic poplach",
+        "func": "var zprava = JSON.stringify(msg.payload);\n\nzprava = JSON.parse(zprava);\n\nif (zprava.fireport == \"poplach\") {\n    msg.topic = \"poplach\";\n    msg.complete = true;\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 80,
+        "wires": [
+            [
+                "4fd91b23e86a86e8"
+            ]
+        ]
+    },
+    {
+        "id": "2198d84641279a48",
+        "type": "http response",
+        "z": "2514ef91f6e9109c",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 680,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "4fd91b23e86a86e8",
+        "type": "join",
+        "z": "2514ef91f6e9109c",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 930,
+        "y": 80,
+        "wires": [
+            [
+                "236830acd509b501"
+            ]
+        ]
+    },
+    {
+        "id": "236830acd509b501",
+        "type": "function",
+        "z": "2514ef91f6e9109c",
+        "name": "Command poplach",
+        "func": "var zprava = JSON.stringify(msg.payload);\n\nzprava = JSON.parse(zprava);\n\nif (zprava.fireport_on_off == true) {\n    msg.payload = \"command:poplach\";\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1110,
+        "y": 80,
+        "wires": [
+            [
+                "81a8dcd9a46c3e5b",
+                "04bf3a5b1bd07553",
+                "e3ca917c9501aaee"
+            ]
+        ]
+    },
+    {
+        "id": "e3ca917c9501aaee",
+        "type": "link out",
+        "z": "2514ef91f6e9109c",
+        "name": "link out 4",
+        "mode": "link",
+        "links": [],
+        "x": 1345,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "04bf3a5b1bd07553",
+        "type": "function",
+        "z": "2514ef91f6e9109c",
+        "name": "Zpětná vazba z join",
+        "func": "msg.payload = true;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 180,
+        "wires": [
+            [
+                "b445e7a4ef7add75"
+            ]
+        ]
+    },
+    {
+        "id": "2f548e94a916d642",
+        "type": "inject",
+        "z": "2514ef91f6e9109c",
+        "name": "Inicializace",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 570,
+        "y": 240,
+        "wires": [
+            [
+                "b445e7a4ef7add75"
+            ]
+        ]
+    },
+    {
+        "id": "adaefe9d5c8576bf",
+        "type": "ui_group",
+        "name": "Fireport",
+        "tab": "6a3c5ff7d1307072",
+        "order": 4,
+        "disp": true,
+        "width": 5,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "6a3c5ff7d1307072",
+        "type": "ui_tab",
+        "name": "Smart Home",
+        "icon": "home",
+        "disabled": false,
+        "hidden": false
+    }
+]
