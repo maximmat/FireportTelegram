@@ -1,7 +1,7 @@
 import requests
 from telethon import TelegramClient, events
 
-url = "http://127.0.0.1:1880/poplach" #loopback na endpoint v nodered
+url = "http://127.0.0.1:1880/poplach" #callback na endpoint v nodered
 
 #data z api
 api_id = "api_id"
@@ -10,12 +10,11 @@ sesion_name = "sesion_name"
 #----
 
 chat = "FIREPORTcz_bot" #jméno fireportu na telegramu
-#chat = "Zdenda_bot" #for testing ;-)
 
-client = TelegramClient(sesion_name, api_id, api_hash) #definice klienta z knihovny telethon viz. 2 řádek
+client = TelegramClient(sesion_name, api_id, api_hash)
 
 @client.on(events.NewMessage(chats=chat, incoming=True)) #na co má klient reagovat
-async def newmess(event): #kdž přijde nová zpráva, async ve zkratce říká, že se funkce provádějí nezávisle na sobě, pokud by bylo více funkcí nečeká se než se dokončí jedna, ale zároveň se vykonává druhá (https://realpython.com/python-async-features/)
+async def newmess(event): #kdž přijde nová zpráva
 	mess = event.raw_text.splitlines() #vyčtení zprávy a rozdělení řádků do seznamu
 
 	kategorie = mess[0] #ze sezanmu jeddnotlivé informace
@@ -35,4 +34,4 @@ async def newmess(event): #kdž přijde nová zpráva, async ve zkratce říká,
 	#v nodered je potřeba navázat http response s kódem 200, aby python skript veděl, že nodered data přijal
 
 client.start() #start telegram klienta
-client.run_until_disconnected() #nekonečná smyčka pro telegram klienta
+client.run_until_disconnected() #smyčka
