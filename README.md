@@ -136,3 +136,12 @@ Soubor `nodered_flow.txt` obsahuje export flow pro Node-RED:
 * Přijímá `POST /poplach` a okamžitě odpovídá HTTP kódem `200`, aby Python skript nečekal na timeout.
 * Kontroluje hodnotu `fireport == "poplach"` a stav dashboardového přepínače `fireport on/off` (pomocí uzlu `join`).
 * Pokud je automatizace zapnutá, odešle zprávu `"command:poplach"` na navazující akce (např. siréna, světla, hlášení).
+
+---
+
+## 👨‍💻 Autor
+
+**Maxim Matouš**
+* Web: [maxim-matous.cz](https://maxim-matous.cz/)
+* GitHub: [@maximmat](https://github.com/maximmat)
+
