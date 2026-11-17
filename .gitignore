@@ -1,0 +1,21 @@
+# Citlivé soubory a Telethon session
+.env
+*.session
+*.session-journal
+*.save
+*.bak
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+
+# Systémové a IDE soubory
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
